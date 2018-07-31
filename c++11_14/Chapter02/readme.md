@@ -1,5 +1,5 @@
-# 1. 语言可用性的强化
-## 1.1 nullptr 与 constexpr
+# 2. 语言可用性的强化
+## 2.1 nullptr 与 constexpr
 ### 1.1.1 nullptr
 `nullptr` 出现的目的是为了替代 `NULL`。传统c++会把`NULL`、`0`看成是同一种东西，
 这主要取决于编译器如何定义 `NULL`, 比如有的会将 `NULL`定义为`((void *)0)`,有些
@@ -51,7 +51,7 @@ call foo(int)
 call foo(char*)
 ```
 因此，当需要使用`NULL`时，直接使用`nullptr`。
-### 1.1.2 constexpr
+### 2.1.2 constexpr
 c++ 已经具备常数表达式的概念，如 `1+2,3*4`这种表达式总会产生相同的下结果且无副作用，
 若编译器能够在编译时就把这些表达式直接优化并植入到程序运行时，将能增加程序的性能。
 一个显著的例子是在数组的定义阶段：
@@ -95,10 +95,10 @@ constexpr int fibonacci(const int n){
   return fibonacci(n-1) + fibonacci(n-2);
 }
 ```
-## 1.2. 类型推导
+## 2.2. 类型推导
 在传统c和c++中，参数必须明确定义，这会拖慢开发效率，代码量也大。  
 c++11 引入`auto`和`decltype`这两个关键字实现类型推导，让编译器来操心变量的类型。
-### 1.2.1 auto
+### 2.2.1 auto
 `auto` 在很早以前就有了，但只作为一个存储类型的指示符存在，与`register`并存。  
 使用`auto`进行类型推导的一个最为常见的就是迭代器，以前是这样写的：
 ```cpp
@@ -144,4 +144,115 @@ c++11_14/Chapter02/test.cpp:7:20: error: ‘auto_arr2’ declared as array of �
                      ^
 ```
 
+### 2.2.2. decltype
+`decltype` 关键字是为了解决 `auto` 关键字只能对就是进行类型推导的缺陷而出现的，
+它的用法和`sizeof`很相似：
+```cpp
+decltype(表达式);
+```
+有时候，我们可能需要计算某个表达式的类型，如：
+```cpp
+auto x = 1;
+auto y = 2;
+decltype(x+y) z;
+```
+### 2.2.3.尾返回类型、auto和decltype配合
+考虑`auto`是否能用于推导函数的返回类型：
+```cpp
+template<typename T, typename T, typename U>
+R add(T x, U y){
+  return x+y;
+}
+```
+> typename 和 class 在模板中没有区别， 在typename 这个关键字出现之前，都用class。
 
+在上面的代码中，必须指定返回类型，但是我们并不知道`add()`这个函数会做什么，会
+返回什么类型。于是就可能有下面这种写法：
+```cpp
+decltype(x+y) add(T x, U y);
+```
+但这样无法通过编译器，因为编译器读到`decltype(x+y)`时。`x`和`y`还未定义。
+因此在c++11中引入尾返回类型(trailing return type),利用`auto`关键字将返回类型后置。
+```cpp
+template<typename T, typename U>
+auto add(T x, U y) -> decltype(x+y){
+  return x+y;
+}
+```
+当然在c++14中就可以直接使用 `auto` 了。
+```cpp
+template<typename T, typename U>
+auto add(T x, U y){ 
+  return x+y;
+}
+```
+
+## 2.3. 区间迭代
+### 2.3.1 基于范围的 `for` 循环
+c++11引入基于范围的迭代，就可以写出类似python的简洁语句
+```cpp
+int array[] = {1,2,3,4,5};
+for(auto &x : array){
+  visit(x);
+}
+```
+值得注意的是，以上写法可用于各种容器，如：
+```cpp
+std::vector<int> vec(5, 100);
+for(auto &i : vec){
+  visit(i);
+}
+```
+
+## 2.4. 初始化列表
+初始化是一个非常重要的语言特性，最常见的就是对对象进行初始化。在传统 C++ 中，不同的对象有着不同的初始化方法，例如普通数组、POD （plain old data，没有构造、析构和虚函数的类或结构体）类型都可以使用 `{}` 进行初始化，也就是我们所说的初始化列表。而对于类对象的初始化，要么需要通过拷贝构造、要么就需要使用 `()` 进行。这些不同方法都针对各自对象，不能通用。
+```cpp
+int arr[3] = {1,2,3};   // 列表初始化
+
+class Foo {
+private:
+    int value;
+public:
+    Foo(int) {}
+};
+
+Foo foo(1);             // 普通构造初始化
+```
+为了解决这个问题，C++11 首先把初始化列表的概念绑定到了类型上，并将其称之为 `std::initializer_list`，允许构造函数或其他函数像参数一样使用初始化列表，这就为类对象的初始化与普通数组和 POD 的初始化方法提供了统一的桥梁，例如：
+```cpp
+#include <initializer_list>
+
+class Magic {
+public:
+    Magic(std::initializer_list<int> list) {}
+};
+
+Magic magic = {1,2,3,4,5};
+std::vector<int> v = {1, 2, 3, 4};
+```
+这种构造函数被叫做初始化列表构造函数，具有这种构造函数的类型将在初始化时被特殊关照。  
+
+初始化列表除了用在对象构造上，还能将其作为普通函数的形参，例如：
+```cpp
+void func(std::initializer_list<int> list) {
+    return;
+}
+func({1,2,3});
+```
+其次，C++11 提供了统一的语法来初始化任意的对象，例如：
+```cpp
+struct A {
+    int a;
+    float b;
+};
+struct B {
+
+    B(int _a, float _b): a(_a), b(_b) {}
+private:
+    int a;
+    float b;
+};
+
+A a {1, 1.1};    // 统一的初始化语法
+B b {2, 2.2};
+```
