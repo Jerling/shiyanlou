@@ -67,7 +67,7 @@ void learn_lambda_func_2() {
 C++14 给与了我们方便，允许捕获的成员用任意的表达式进行初始化，这就允许了右值的捕获，被声明的捕获变量类型会根据表达式进行判断，判断方式与使用 `auto` 本质上是相同的：
 ```cpp
 #include <iostream>
-#include <utility>
+#include <memory>
 void learn_lambda_func_3(){
     auto important = std::make_unique<int>(1);
     auto add = [v1 = 1, v2 = std::move(important)](int x, int y) -> int {
@@ -268,7 +268,7 @@ int main() {
 
 ```cpp
 #include <iostream> // std::cout
-#include <utility>  // std::move
+#include <memory>  // std::move
 #include <vector>   // std::vector
 #include <string>   // std::string
 
@@ -333,7 +333,7 @@ T&& | 右引用 | T&&
 完美转发就是基于上述规律产生的。所谓完美转发，就是为了让我们在传递参数的时候，保持原来的参数类型（左引用保持左引用，右引用保持右引用）。为了解决这个问题，我们应该使用 `std::forward` 来进行参数的转发（传递）：
 ```cpp
 #include <iostream>
-#include <utility>
+#include <memory>
 void reference(int& v) {
     std::cout << "左值引用" << std::endl;
 }
