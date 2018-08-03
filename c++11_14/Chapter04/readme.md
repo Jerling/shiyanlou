@@ -1,4 +1,4 @@
-# 4.新增容器
+# 4. 新增容器
 ## 二、std::array 和 std::forward_list
 ### std::array
 看到这个容器的时候肯定会出现这样的问题：
@@ -149,7 +149,7 @@ std::get<index>(t);
 那么要怎么处理？答案是，标准库做不到。这里介绍一个使用 `boost::variant` 配合变长模板参数的黑魔法：
 
 > 提示：使用 `boost` 只是暂时性的解决方案，`variant` 已在 C++17 中被纳入标准库 `std::variant`，见扩展主题它的讨论。[http://en.cppreference.com/w/cpp/utility/variant](http://en.cppreference.com/w/cpp/utility/variant)
-
+```cpp
 #include <boost/variant.hpp>
 template <size_t n, typename... T>
 boost::variant<T...> _tuple_index(size_t i, const std::tuple<T...>& tpl) {
@@ -164,6 +164,7 @@ template <typename... T>
 boost::variant<T...> tuple_index(size_t i, const std::tuple<T...>& tpl) {
     return _tuple_index<0>(i, tpl);
 }
+```
 这样我们就能：
 ```cpp
 int i = 1;
