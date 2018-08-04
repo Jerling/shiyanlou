@@ -1,6 +1,6 @@
 # 4. 新增容器
-## 二、std::array 和 std::forward_list
-### std::array
+## 4.1. std::array 和 std::forward_list
+### 4.1.1. std::array
 看到这个容器的时候肯定会出现这样的问题：
 
 1. 为什么要引入 `std::array` 而不是直接使用 `std::vector`？
@@ -32,12 +32,12 @@ foo(arr.data(), arr.size());
 // 使用 `std::sort`
 std::sort(arr.begin(), arr.end());
 ```
-### std::forward_list
+### 4.1.2 std::forward_list
 `std::forward_list` 是一个列表容器，使用方法和 `std::list` 基本类似，因此我们就不花费篇幅进行介绍了。
 
 需要知道的是，和 `std::list` 的双向链表的实现不同，`std::forward_list` 使用单向链表进行实现，提供了 `O(1)` 复杂度的元素插入，不支持快速随机访问（这也是链表的特点），也是标准库容器中唯一一个不提供 `size()` 方法的容器。当不需要双向迭代时，具有比 `std::list` 更高的空间利用率。
 
-## 三、无序容器
+## 4.2. 无序容器
 我们已经熟知了传统 C++ 中的有序容器 `std::map/std::set`，这些容器内部通过红黑树进行实现，插入和搜索的平均复杂度均为 `O(log(size))`。在插入元素时候，会根据 `<` 操作符比较元素大小并判断元素是否相同，并选择合适的位置插入到容器中。当对这个容器中的元素进行遍历时，输出结果会按照 `<` 操作符的顺序来逐个遍历。
 
 而无序容器中的元素是不进行排序的，内部通过 `Hash` 表实现，插入和搜索元素的平均复杂度为 `O(constant)`，在不关心容器内部元素顺序时，能够获得显著的性能提升。
@@ -87,10 +87,10 @@ Key:[1] Value:[1]
 Key:[2] Value:[2]
 Key:[3] Value:[3]
 ```
-## 四、元组 std::tuple
+## 4.3. 元组 std::tuple
 了解过 Python 的程序员应该知道元组的概念，纵观传统 C++ 中的容器，除了 `std::pair` 外，似乎没有现成的结构能够用来存放不同类型的数据（通常我们会自己定义结构）。但 `std::pair` 的缺陷是显而易见的，只能保存两个元素。
 
-### 元组基本操作
+### 4.3.1 元组基本操作
 关于元组的使用有三个核心的函数：
 
 1. `std::make_tuple`: 构造元组
@@ -133,14 +133,15 @@ int main()
     << "成绩: " << grade << ", "
     << "姓名: " << name << '\n';
 }
+```
 std::get 除了使用常量获取元组对象外，C++14 增加了使用类型来获取元组中的对象：
-
+```cpp
 std::tuple<std::string, double, double, int> t("123", 4.5, 6.7, 8);
 std::cout << std::get<std::string>(t) << std::endl;
 std::cout << std::get<double>(t) << std::endl;   // 非法, 引发编译期错误
 std::cout << std::get<3>(t) << std::endl;
 ```
-### 运行期索引
+### 4.3.2 运行期索引
 如果你仔细思考一下可能就会发现上面代码的问题，`std::get<>` 依赖一个编译期的常量，所以下面的方式是不合法的：
 ```cpp
 int index = 1;
@@ -170,7 +171,7 @@ boost::variant<T...> tuple_index(size_t i, const std::tuple<T...>& tpl) {
 int i = 1;
 std::cout << tuple_index(i, t) << std::endl;
 ```
-### 元组合并与遍历
+### 4.3.3 元组合并与遍历
 还有一个常见的需求就是合并两个元组，这可以通过 `std::tuple_cat` 来实现：
 ```cpp
 auto new_tuple = std::tuple_cat(get_student(1), std::move(t));
