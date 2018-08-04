@@ -27,6 +27,7 @@ float（浮点型）   | Float
 double （双精度） | Double
 boolean （布尔）  | Boolean
 short（短整型）   | Short
+
 在这八个类名中，除了Integer和Character类以后，其它六个类的类名和基本数据类型一致，只是类名的第一个字母大写。
 
 ### 1.3.1. Integer 类
@@ -52,6 +53,7 @@ doubleValue()                     | double  | 以 double 型返回此 Integer �
 toString()                        | String  | 返回一个表示该 Integer 值的 String 对象
 valueOf(String str)               | Integer | 返回保存指定的 String 值的 Integer 对象
 parseInt(String str)              | int     | 将字符串参数作为有符号的十进制整数进行解析
+
 例子：
 ```java
 public class IntegerTest {
