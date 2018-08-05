@@ -104,33 +104,31 @@ isUnicodeIdentifierStart(char ch) | boolean | 确定是否允许将指定字符�
 
 实例：
 ```java
-public class CharacterTest {
-    public static void main(String[] args){
-        int count;
-        //定义了一个字符数组
-        char[] values = {'*', '_', '%', '8', 'L', 'l'};
-        //遍历字符数组
-        for (count = 0; count < values.length; count++){
-            if(Character.isDigit(values[count])){
-                System.out.println(values[count]+"是一个数字");
-            }
-            if(Character.isLetter(values[count])){
-                System.out.println(values[count]+ "是一个字母");
-            }
-            if(Character.isUpperCase(values[count])){
-                System.out.println(values[count]+"是大写形式");
-            }
-            if(Character.isLowerCase(values[count])){
-                System.out.println(values[count]+"是小写形式");
-            }
-            if(Character.isUnicodeIdentifierStart(values[count])){
-                System.out.println(values[count]+"是Unicode标志符的第一个有效字符");
-            }
-        }
-        //判断字符c是否是空白字符
-        char c = ' ';
-        System.out.println("字符c是空白字符吗？"+Character.isWhitespace(c));
+public class Charactertest {
+  public static void main(String args[]) {
+    int count;
+    char[] values = {'*', '_', '%', '8', 'L', 'l', ' '};
+    for (count = 0; count < values.length; count++) {
+      if (Character.isDigit(values[count])) {
+        System.out.println(values[count] + " is a digit");
+      }
+      if (Character.isLetter(values[count])) {
+        System.out.println(values[count] + " is a letter");
+      }
+      if (Character.isUpperCase(values[count])) {
+        System.out.println(values[count] + " is a upperletter");
+      }
+      if (Character.isLowerCase(values[count])) {
+        System.out.println(values[count] + " is a lowerletter");
+      }
+      if (Character.isUnicodeIdentifierStart(values[count])) {
+        System.out.println(values[count] + " is a first sign of unicode");
+      }
+      if (Character.isWhitespace(values[count])) {
+        System.out.println(values[count] + " is a whitespace"); 
+      }
     }
+  }
 }
 ```
 输出结果：
@@ -163,24 +161,26 @@ valueOf(String s)      | Boolean | 返回一个用指定得字符串表示值的
 
 实例：
 ```java
-public class BooleanTest {
-    public static void main(String[] args) {
-        // Boolean(boolean value)构造方法
-        Boolean a = new Boolean(true);
-        System.out.println("a为"+a);
-        // Boolean(String s)构造方法
-        Boolean b = new Boolean("true");
-        Boolean c = new Boolean("OK");
-        System.out.println("b为"+b);
-        System.out.println("c为"+c);
-        System.out.println("a的booleanValue()为"+a.booleanValue());
-        System.out.println("a和b相等吗？"+a.equals(b));
-    }
+public class Booleantest {
+  public static void main(String args[]) {
+    Boolean a = new Boolean(true);
+    System.out.println("a is " + a);
+    Boolean b = new Boolean("true");
+    Boolean c = new Boolean("OK");
+    System.out.println("b is " + b);
+    System.out.println("c is " + c);
+    System.out.println("a.booleanValue() is " + a.booleanValue());
+    System.out.println("a ?= b :" + a.equals(b));
+  }
 }
 ```
 输出结果：
 ```java
-todo:
+  a为true
+  b为true
+  c为false
+  a的booleanValue()为true
+  a和b相等吗？true
 ```
 其他的参考 Java 类库的手册。
 
@@ -220,22 +220,6 @@ int len2 = s2.length();
 ![](https://doc.shiyanlou.com/document-uid79144labid1085timestamp1435503766697.png/wm)
 
 如果想忽略掉大小写关系，比如：`java` 和 `Java` 是一样的，可以调用`equalsIgnoreCase()`方法，其用法与 `equals` 一致，不过它会忽视大小写。
-
-比如：
-```java
-public class StringTest {
-    public static void main(String[] args){
-        String s = new String("Java");
-        String m = "java";
-        System.out.println("用equals()比较，java和Java结果为"+s.equals(m));
-        System.out.println("用equalsIgnoreCase()比较，java和Java结果为"+s.equalsIgnoreCase(m));
-    }
-}
-```
-输出结果：
-```java
-todo:
-```
 
 而使用`"=="`比较的是两个对象在内存中存储的地址是否一样。例如: `String s1 = "abc"; String s2 = new String("abc"); boolean b = (s1 == s2);` 则变量`b`的值是`false`，因为`s1`对象对应的地址是`"abc"`的地址，而`s2`使用`new`关键字申请新的内存，所以内存地址和`s1`的`"abc"`的地址不一样，所以获得的值是`false`。
 
@@ -278,20 +262,48 @@ trim()                                  | String | 返回一个前后不含任�
 
 实例：
 ```java
-public class StringTest {
-    public static void main(String[] args) {
-         String s = "abcdefabc";
-         System.out.println("字符a第一次出现的位置为"+s.indexOf('a'));
-         System.out.println("字符串bc第一次出现的位置为"+s.indexOf("bc"));
-         System.out.println("字符a最后一次出现的位置为"+s.lastIndexOf('a'));
-         System.out.println("从位置3开始到结束的字符串"+s.substring(3));
-         System.out.println("从位置3开始到6之间的字符串"+s.substring(3,6));
-    }
+public class Stringtest {
+  public static void main(String args[]) {
+    String s = new String("Java");
+    String m = "java";
+    System.out.println("The length of s is " + s.length());
+    System.out.println("The length of m is " + s.length());
+    System.out.println("equals test s and m : " + s.equals(m));
+    System.out.println("equalsIgnoreCase test s and m : " + m.equalsIgnoreCase(s));
+
+    String sm1 = s + m;
+    String sm2 = sm1.concat(s);
+    System.out.println("s + m : " + sm1);
+    System.out.println("sm1.concat(s) : " + sm2);
+    System.out.println("The first of s is " + s.charAt(0));
+    System.out.println("The first index of a is  " + s.indexOf('a'));
+    System.out.println("The first index of va is  " + s.indexOf("va"));
+    System.out.println("The first index of a is  " + s.lastIndexOf('a'));
+    System.out.println("The first index of va is sm2 " + sm2.lastIndexOf("va"));
+    System.out.println("Th substring of 2: is " + sm2.substring(2));
+    System.out.println("Th substring of 2-5: is " + sm2.substring(2, 5));
+
+    String str = "first test last";
+    System.out.println("trim test : " + str.trim());
+  }
 }
 ```
-输出结果：
+输出结果为： 
 ```java
-todo:
+  The length of s is 4
+  The length of m is 4
+  equals test s and m : false
+  equalsIgnoreCase test s and m : true
+  s + m : Javajava
+  sm1.concat(s) : JavajavaJava
+  The first of s is J
+  The first index of a is  1
+  The first index of va is  2
+  The first index of a is  3
+  The first index of va is sm2 10
+  Th substring of 2: is vajavaJava
+  Th substring of 2-5: is vaj
+  trim test : first test last
 ```
 
 ### 1.4.6. StringBuffer
@@ -336,23 +348,29 @@ replace(int start, int end, String s) | StringBuffer | 使用一组字符替换�
 
 上面的方法中选择几个：
 ```java
-public class StringTest {
-
-    public static void main(String[] args){
-        //定义和初始化一个StringBuffer类的字串s
-        StringBuffer s = new StringBuffer("I");
-        //在s后面添加字串" java"
-        s.append(" java");
-        //在s[1]的位置插入字串
-        s.insert(1, " love");
-        String t = s.toString(); //转为字符串
-        System.out.println(t);
-    }
+public class StringBuffertest {
+  public static void main(String args[]) {
+    StringBuffer s = new StringBuffer("I");
+    s.append(" java");
+    s.insert(1, " love");
+    System.out.println("s : " + s.toString());
+    System.out.println("The length of s : " + s.length());
+    s.setCharAt(0,'i');
+    System.out.println("s : " + s.toString());
+    System.out.println("The reverse of s : " + s.reverse());
+    System.out.println("After delete : " + s.delete(0,5));
+    System.out.println("After replace: " + s.replace(0,4,"java"));
+  }
 }
 ```
 输出结果为： 
 ```java
-I love java
+  s : I love java
+  The length of s : 11
+  s : i love java
+  The reverse of s : avaj evol i
+  After delete : evol i
+  After replace: java i
 ```
 
 在这里只介绍了 `String` 类常用的方法，其他方法可参照 JDK 文档。
@@ -382,18 +400,40 @@ random()                | double | 返回带正号的 double 值，该值大于�
 
 实例：
 ```java
-public class MathTest {
-    public static void main(String[] args) {
-        System.out.println(Math.abs(-12.7));
-        System.out.println(Math.ceil(12.7));
-        System.out.println(Math.rint(12.4));
-        System.out.println(Math.random());
-    }
+public class Mathtest {
+  public static void main(String args[]) {
+    Float f = new Float(8.88);
+    System.out.format("The sin of %.2f is %.4f%n" ,f.floatValue(), Math.sin(f.floatValue()));
+    System.out.format("The cos of %.2f is %.4f%n" ,f.floatValue(), Math.cos(f.floatValue()));
+    System.out.format("The asin of %.2f is %.4f%n" ,f.floatValue(), Math.asin(f.floatValue()));
+    System.out.format("The acos of %.2f is %.4f%n" ,f.floatValue(), Math.acos(f.floatValue()));
+    System.out.format("The atan of %.2f is %.4f%n" ,f.floatValue(), Math.atan(f.floatValue()));
+    System.out.format("The pow(2) of %.2f is %.4f%n" ,f.floatValue(), Math.pow(f.floatValue(), 2));
+    System.out.format("The sqrt of %.2f is %.4f%n" ,f.floatValue(), Math.sqrt(f.floatValue()));
+    System.out.format("The abs of %.2f is %.4f%n" ,f.floatValue(), Math.abs(f.floatValue()));
+    System.out.format("The ceil of %.2f is %.4f%n",f.floatValue(), Math.ceil(f.floatValue()));
+    System.out.format("The floor of %.2f is %.4f%n" ,f.floatValue(), Math.floor(f.floatValue()));
+    System.out.format("The ceil of %.2f is %.4f%n" ,f.floatValue(), Math.ceil(f.floatValue()));
+    System.out.format("The rint of %.2f is %.4f%n" ,f.floatValue(), Math.rint(f.floatValue()));
+    System.out.format("The random is %.4f%n" ,Math.random());
+  }
 }
 ```
 输入结果：
 ```java
-todo:
+  The sin of 8.88 is 0.5182
+  The cos of 8.88 is -0.8552
+  The asin of 8.88 is NaN
+  The acos of 8.88 is NaN
+  The atan of 8.88 is 1.4587
+  The pow(2) of 8.88 is 78.8544
+  The sqrt of 8.88 is 2.9799
+  The abs of 8.88 is 8.8800
+  The ceil of 8.88 is 9.0000
+  The floor of 8.88 is 8.0000
+  The ceil of 8.88 is 9.0000
+  The rint of 8.88 is 9.0000
+  The random is 0.5478
 ```
 
 ## 1.6. java.lang 类 Class
