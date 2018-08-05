@@ -80,7 +80,12 @@ public class IntegerTest {
 ```
 输出结果：
 ```java
-TODO:
+  a = 10
+  b = 11
+  a.compareTo(b): -1
+  a.equals(b): false
+  float(a) : 10.0
+  10101110 = 174
 ```
 
 ### 1.3.2. Character 类
@@ -130,7 +135,14 @@ public class CharacterTest {
 ```
 输出结果：
 ```java
-todo:
+  8 is a digit
+  L is a letter
+  L is a upperletter
+  L is a first sign of unicode
+  l is a letter
+  l is a lowerletter
+  l is a first sign of unicode
+    is a whitespace
 ```
 ### 1.3.3 Boolean 类
 `Boolean` 类将基本类型为 `boolean` 的值包装在一个对象中。一个 `Boolean` 类型的对象只包含一个类型为 `boolean` 的字段。
@@ -148,6 +160,7 @@ equals(Object obj)     | boolean | 判断调用该方法的对象与 obj 是否�
 parseBoolean(String s) | boolean | 将字符串参数解析为 boolean 值
 toString()             | String  | 返回表示该 boolean 值的 String 对象
 valueOf(String s)      | Boolean | 返回一个用指定得字符串表示值的 boolean 值
+
 实例：
 ```java
 public class BooleanTest {
