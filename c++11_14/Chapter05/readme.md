@@ -17,7 +17,7 @@
 注意：引用计数不是垃圾回收，引用技术能够尽快收回不再被使用的对象，同时在回收的过程中也不会造成长时间的等待，更能够清晰明确的表明资源的生命周期。
 
 ## 5.3. std::shared_ptr
-`std::shared_ptr` 是一种智能指针，它能够记录多少个 `shared_ptr` 共同指向一个对象，从而消除显示的调用 `delete`，当引用计数变为零的时候就会将对象自动删除。
+`std::shared_ptr` 是一种智能指针，它能够记录多个 `shared_ptr` 共同指向一个对象，从而消除显示的调用 `delete`，当引用计数变为零的时候就会将对象自动删除。
 
 但还不够，因为使用 `std::shared_ptr` 仍然需要使用 `new` 来调用，这使得代码出现了某种程度上的不对称。
 
@@ -41,8 +41,9 @@ int main()
     // 离开作用域前，shared_ptr 会被析构，从而释放内存
     return 0;
 }
-std::shared_ptr 可以通过 get() 方法来获取原始指针，通过 reset() 来减少一个引用计数，并通过get_count()来查看一个对象的引用计数。例如：
-
+```
+`std::shared_ptr` 可以通过 get() 方法来获取原始指针，通过 reset() 来减少一个引用计数，并通过get_count()来查看一个对象的引用计数。例如：
+```cpp
 auto pointer = std::make_shared<int>(10);
 auto pointer2 = pointer;    // 引用计数+1
 auto pointer3 = pointer;    // 引用计数+1
